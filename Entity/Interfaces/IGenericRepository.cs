@@ -7,6 +7,6 @@ namespace Entity.Interfaces
     {
         Task<IReadOnlyList<T>> ListAllAsync();
 
-        Task<T> GetIdAsync(dynamic id);
+        Task<T> GetByIdAsync(dynamic id);
     }
 }
