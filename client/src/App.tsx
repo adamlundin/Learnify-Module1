@@ -6,11 +6,13 @@ import LoginPage from './pages/Login';
 import DetailPage from './pages/DetailPage';
 import Navigation from './components/Navigation';
 import "antd/dist/antd.min.css";
+import Category from './components/Categories';
 
 function App() {
   return (
     <>
       <Navigation />
+      <Route exact path="/" component={Category} />
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route exact path="/login" component={LoginPage} />
