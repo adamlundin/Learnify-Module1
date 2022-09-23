@@ -352,3 +352,5 @@ MigrationBackup/
 /nodemodels
 /.pnp
 /.pnp.js
+
+/.vscode
