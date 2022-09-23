@@ -7,6 +7,7 @@ import DetailPage from './pages/DetailPage';
 import Navigation from './components/Navigation';
 import "antd/dist/antd.min.css";
 import Category from './components/Categories';
+import CategoryPage from './pages/CategoryPage';
 
 function App() {
   return (
@@ -15,11 +16,12 @@ function App() {
       <Route exact path="/" component={Category} />
       <Switch>
         <Route exact path="/" component={Homepage} />
+        <Route exact path="/category/:id" component={CategoryPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/detail" component={DetailPage} />
       </Switch>
     </>
   );
-}
+};
 
 export default App;
