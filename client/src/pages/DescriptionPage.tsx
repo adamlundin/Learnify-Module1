@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import agent from "../actions/agent";
+import { useStoreContext } from "../context/StoreContext";
 import { Course, Learning, Requirement } from "../models/course";
 
 const DescriptionPage = () => {
     const [course, setCourse] = useState<Course>();
     const {id} = useParams<{id: string}>();
 
+    const {basket, setBasket} = useStoreContext();
+
     useEffect(() => {
         agent.Courses.getById(id).then((response) => {
             setCourse(response);
         })
     }, [id]);
+
+    const addToCart = (courseId: string) => {
+        agent.Baskets.addItem(courseId)
+        .then((response) => setBasket(response))
+        .catch((error) => console.log(error));
+    };
 
     const getParsedDate = (strDate: any) => {
         let strSplitDate = String(strDate).split(' ');
@@ -133,6 +142,13 @@ const DescriptionPage = () => {
                         </div>
                     </div>
                     <div className="description-page__sidebar__box__button">
+                    {basket?.items.find((item) => item.courseId === course?.id) !== undefined ? 
+                        <Link className="description-page__sidebar__box__button__cart" to="/basket">
+                            Go to Cart
+                        </Link> : 
+                        <div onClick={() => addToCart(course!.id)} className="description-page__sidebar__box__button__cart">
+                            Add to Cart
+                        </div>}
                         <div className="description-page__sidebar__box__button__text">
                             Book Now
                         </div>
