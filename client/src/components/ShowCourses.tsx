@@ -43,7 +43,7 @@ const ShowCourses = ({course} : Props) => {
       };
 
     const addToCart = (courseId: string) => {
-        agent.Basket.addItem(courseId)
+        agent.Baskets.addItem(courseId)
         .catch((error) => console.log(error));
     }
 
