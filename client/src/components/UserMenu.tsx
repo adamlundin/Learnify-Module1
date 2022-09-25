@@ -1,6 +1,7 @@
 import { Dropdown, Menu } from "antd";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { removeBasket } from "../redux/slice/basketSlice";
 import { signOut } from "../redux/slice/userSlice";
 
 const UserMenu = () => {
@@ -10,6 +11,7 @@ const UserMenu = () => {
 
     const signout = () => {
         dispatch(signOut());
+        dispatch(removeBasket());
         history.push("/");
     }
 
