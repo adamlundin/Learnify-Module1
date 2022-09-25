@@ -4,7 +4,11 @@ import { ChangeEvent, SyntheticEvent, useState } from "react";
 import agent from "../actions/agent";
 import { Login } from "../models/user";
 
-const Signin = () => {
+interface Props {
+    toggleRegister: () => void;
+}
+
+const Signin = ({toggleRegister} : Props) => {
     const [values, setValues] = useState<Login>({
         email: "",
         password: "",
@@ -74,7 +78,7 @@ const Signin = () => {
                     </Form.Item>
                 </Form>
             </Content>
-            <div className="log-in-card_toggle">Not a user yet? Register here!</div>
+            <div onClick={toggleRegister} className="log-in-card_toggle">Not a user yet? Register here!</div>
         </Card>
     );
 };
