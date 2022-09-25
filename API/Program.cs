@@ -25,7 +25,7 @@ namespace API
             
             var logger = services.GetRequiredService<ILogger<Program>>();
             try{
-                var userManager = services.GetRequiredService<UserManager<User>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var context = services.GetRequiredService<StoreContext>();
                 await context.Database.MigrateAsync();
                 await StoreContextSeed.SeedAsync(context, logger, userManager);
