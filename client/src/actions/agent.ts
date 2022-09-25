@@ -4,6 +4,7 @@ import {Category} from "../models/category";
 import { Course } from "../models/course";
 import { Basket } from "../models/basket";
 import { URLSearchParams } from "url";
+import { Login, Register } from "../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -17,6 +18,11 @@ const requests = {
     put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
+
+const Users = {
+    login: (values: Login) => requests.post("users/login", values),
+    register: (values: Register) => requests.post("users/register", values),
+}
 
 const Courses = {
     list: (params?: URLSearchParams) => requests.get<PaginatedCourse>("/courses", params),
@@ -38,6 +44,7 @@ const agent = {
     Courses,
     Categories,
     Baskets,
+    Users,
 };
 
 export default agent;
