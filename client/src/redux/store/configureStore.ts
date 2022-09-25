@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { BasketSlice } from "../slice/basketSlice";
+import { courseSlice } from "../slice/courseSlice";
 import { loginSlice } from "../slice/loginSlice";
 
 export const store = configureStore({
     reducer: {
         login: loginSlice.reducer,
         basket: BasketSlice.reducer,
+        course: courseSlice.reducer,
     },
 });
 
