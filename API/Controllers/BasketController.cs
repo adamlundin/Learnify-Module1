@@ -58,10 +58,25 @@ namespace API.Controllers
 
             if (basket == null) return NotFound(new ApiResponse(404));
             basket.RemoveCourse(courseId);
-            var result = await _context.SaveChangesAsync() > 0;
 
+            var result = await _context.SaveChangesAsync() > 0;
             if (result) return Ok();
+
             return BadRequest(new ApiResponse(400, "Problem removing the item to the Basket"));
+        }
+
+        [HttpDelete("clear")]
+        public async Task<ActionResult> RemoveBasket()
+        {
+            var basket = await ExtractBasket(GetClientId());
+            if(basket == null) return NotFound();
+
+            basket.ClearBasket();
+
+            var result = await _context.SaveChangesAsync() > 0;
+            if (result) return Ok();
+            
+            return BadRequest(new ApiResponse(400, "Problem clearing the Basket"));
         }
 
         private Basket CreateBasket()
