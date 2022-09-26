@@ -28,7 +28,6 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
@@ -40,6 +39,7 @@ namespace API.Controllers
 
             var userBasket = await ExtractBasket(user.UserName);
             var basket = await ExtractBasket(Request.Cookies["clientId"]);
+            var courses = _context.UserCourses.AsQueryable();
 
             if (basket != null)
             {
@@ -53,7 +53,10 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket)
+                Basket = basket != null ? _mapper.Map<Basket, BasketDto>(basket) : _mapper.Map<Basket, BasketDto>(userBasket),
+                Courses = courses.Where(x => x.UserId == user.Id)
+                .Select(u => u.Course)
+                .ToList()
             };
         }
 
@@ -104,6 +107,25 @@ namespace API.Controllers
             if(result) return Ok();
 
             return BadRequest(new ApiResponse(400, "Problem adding Courses"));
+        }
+
+        [Authorize]
+        [HttpGet("CurrentUser")]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var basket = await ExtractBasket(User.Identity.Name);
+            var courses = _context.UserCourses.AsQueryable();
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await _tokenService.GenerateToken(user),
+                Basket = _mapper.Map<Basket, BasketDto>(basket),
+                Courses = courses.Where(x => x.UserId == user.Id)
+                .Select(u => u.Course)
+                .ToList()
+            };
         }
 
         private async Task<Basket> ExtractBasket(string clientId)
