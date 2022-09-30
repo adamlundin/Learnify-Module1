@@ -37,19 +37,28 @@ const RegisterComponent = ({toggleRegister} : Props) => {
 
     const submitUser = async (e: SyntheticEvent) => {
         e.preventDefault();
+    
         try {
-            if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) && password.length >= 6 && username.length >= 5) {
-                await dispatch(registerUser(values));
-                history.push("/profile");
-            };
-            resetForm()
-        } catch (err) {
-            notification.error({
-                message: "Please check youre credentials",
-            });
-            resetForm();
+          if (
+            email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) &&
+            password.length >= 6 &&
+            username.length >= 5
+          ) {
+            await dispatch(registerUser(values));
+            history.push("/profile");
+          }
+          resetForm();
+        } catch (err: any) {
+         if(err.error) {
+            for (const val of err.error) {
+              notification.error({
+                message: val,
+              });
+            }
+         }
+          resetForm();
         }
-    };
+      };
 
     return (
         <Card className="log-in-card">
