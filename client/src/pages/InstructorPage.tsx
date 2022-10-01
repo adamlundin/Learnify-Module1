@@ -25,7 +25,7 @@ const InstructorPage = () => {
         <div className="instructor">
             <div className="instructor__left">
                 <div className="instructor__left__header">
-                    {unpublishedCourses.length > 0 ? `My unpublished courses` : `Create a new Course`}
+                    {unpublishedCourses.length > 0 ? `My Unpublished courses` : `Create a new Course`}
                 </div>
                 <div className="instructor__left__courses">
                     {unpublishedCourses.map((course: Course, index: number) => {
